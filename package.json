@@ -6,6 +6,9 @@
   "repository": "https://github.com/victoralvess/express-polls-app",
   "author": "Victor Alves <vsilva.programador@gmail.com>",
   "license": "MIT",
+  "scripts": {
+  	"start": "nodemon index.js"
+  },
   "dependencies": {
     "nodemon": "^1.17.3"
   }
