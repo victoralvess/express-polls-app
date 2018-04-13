@@ -1,0 +1,9 @@
+{
+  "name": "express-polls-app",
+  "version": "0.1.0",
+  "description": "Polls App built with Express.",
+  "main": "index.js",
+  "repository": "https://github.com/victoralvess/express-polls-app",
+  "author": "Victor Alves <vsilva.programador@gmail.com>",
+  "license": "MIT"
+}
