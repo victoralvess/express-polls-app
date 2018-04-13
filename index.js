@@ -3,9 +3,12 @@ require('dotenv').config()
 const express = require('express');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
+const mongoose = require('mongoose');
 
 const passportConfig = require('./config/passport');
 const authRoutes = require('./routes/auth');
+
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 app.use(cookieSession({
