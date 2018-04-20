@@ -19,6 +19,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRoutes);
 
+app.get('/', (req, res) => {
+  res.render('index', { user: req.user });
+});
+
 app.listen(process.env.PORT, () => {
 	console.log(`Server running at: http://localhost:${process.env.PORT}`);
 });
