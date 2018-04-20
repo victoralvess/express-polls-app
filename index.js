@@ -11,6 +11,9 @@ const authRoutes = require('./routes/auth');
 mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
+
+app.set('view engine', 'pug');
+
 app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000, // 1 day
 	keys: [process.env.COOKIE_KEY]
