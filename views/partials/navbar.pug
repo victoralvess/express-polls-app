@@ -1,0 +1,13 @@
+header
+  nav
+    ul
+      li
+        a(href="/") Home
+      if !user
+        li
+          a(href="/auth/login") Sign In
+      else
+        li
+          a(href="/auth/logout") Sign Out
+        li
+          a(href="/me") Me
