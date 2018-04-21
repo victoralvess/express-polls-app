@@ -14,6 +14,9 @@ const app = express();
 
 app.set('view engine', 'pug');
 app.use(express.static('public'));
+app.use(express.static('node_modules/bootstrap/dist'));
+app.use(express.static('node_modules/popper.js/dist/umd'));
+app.use(express.static('node_modules/jquery/dist'));
 
 app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000, // 1 day
