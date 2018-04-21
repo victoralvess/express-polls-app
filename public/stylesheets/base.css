@@ -1,0 +1,21 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+h1 {
+  color: #222;
+}
+
+p {
+  color: #777;
+}
+
+li {
+  list-style: none;
+}
