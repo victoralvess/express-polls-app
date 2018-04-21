@@ -1,5 +1,5 @@
 require('dotenv').config()
-
+  
 const express = require('express');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URI);
 const app = express();
 
 app.set('view engine', 'pug');
+app.use(express.static('public'));
 
 app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000, // 1 day
