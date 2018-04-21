@@ -3,9 +3,13 @@ html
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no")
+    base(href="/")
     title= title || 'Express Polls App'
-    link(rel="stylesheet" href="/stylesheets/base.css")
+    link(rel="stylesheet" href="css/bootstrap.min.css")
   body
     include partials/navbar
     block body
+    script(src="jquery.min.js")
+    script(src="popper.min.js")
+    script(src="js/bootstrap.min.js")
   

@@ -1,13 +1,20 @@
 header
-  nav
-    ul
-      li
-        a(href="/") Home
-      if !user
-        li
-          a(href="/auth/login") Sign In
-      else
-        li
-          a(href="/auth/logout") Sign Out
-        li
-          a(href="/me") Me
+  nav.navbar.navbar-expand-md.navbar-light.bg-light
+    div.container
+      div.navbar-brand
+        img(src="images/brand-icon.png" height="30" width="30")
+      button(data-toggle="collapse" data-target=".navbar-collapse").ml-auto.navbar-toggler
+          span.navbar-toggler-icon/
+      div.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a(href="/").nav-link Home
+        ul.navbar-nav
+          if !user
+            li.nav-item
+              a(href="/auth/login").btn.btn-outline-success Sign In
+          else
+            li.nav-item
+              a(href="/me").nav-link Me
+            li.nav-item
+              a(href="/auth/logout").btn.btn-outline-danger Sign Out           
