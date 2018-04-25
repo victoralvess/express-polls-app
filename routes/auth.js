@@ -3,7 +3,7 @@ const passport = require('passport');
 
 router.get('/logout', (req, res) => {
 	req.logout();
-	res.send('Logged Out');
+  res.redirect('/');
 });
 
 router.get(
@@ -17,7 +17,7 @@ router.get(
 	'/google/callback',
 	passport.authenticate('google'),
 	(req, res) => {
-		res.send('You are logged in.')
+    res.redirect('/');
 	}
 );
 
