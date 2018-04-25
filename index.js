@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const passportConfig = require('./config/passport');
 const authRoutes = require('./routes/auth');
 
+const Question = require('./models/question');
+
 mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
@@ -26,8 +28,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRoutes);
 
-app.get('/', (req, res) => {
-  res.render('index', { user: req.user });
+app.get('/', async (req, res) => {
+  res.render('index', { user: req.user, questions: await Question.find() });
 });
 
 app.listen(process.env.PORT, () => {
