@@ -11,3 +11,11 @@
   font-size: 1.3rem;
   padding-top: 0.2em;
 }
+
+.dark-text {
+  color: #222;
+}
+
+.light-text {
+  color: #555;
+}
