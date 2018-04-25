@@ -1,0 +1,16 @@
+extends base
+
+block body
+  if question
+    h1= question.question
+    form(method="post" action="/questions/"+question.id+"/vote")
+      .btn-group.btn-group-toggle.d-flex(data-toggle="buttons")
+        each choice in question.choices
+          label.btn.btn-outline-primary.flex-1
+            input(id=choice.id name="choice" type="radio" value=choice.id)
+            =choice.choice_text
+      br
+      input(type="submit" value="VOTE").btn.btn-success
+  else
+    .alert.alert-danger
+      This question doesn't exist.
