@@ -1,4 +1,10 @@
 extends base
 
 block body
-  h1 Welcome to the index page.
+  // h1.display-4.text-center Latest Questions
+  ul.list-group
+    each question in questions
+      li.list-group-item
+        .d-flex.align-items-center
+          h1.lead.dark-text= question.question
+          a(href='/questions/' + question.id).btn.btn-primary.ml-auto VOTE
