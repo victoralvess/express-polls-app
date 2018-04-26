@@ -4,6 +4,7 @@ block body
   if question
     h1= question.question
     form(method="post" action="/questions/"+question.id+"/vote")
+      input(type="hidden" name="_csrf" value=csrf_token)
       .btn-group.btn-group-toggle.d-flex(data-toggle="buttons")
         each choice in question.choices
           label.btn.btn-outline-primary.flex-1

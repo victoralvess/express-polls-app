@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const Csrf = require('csurf');
+const bodyParser = require('body-parser');
 const passport = require('passport');
 const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
@@ -12,6 +14,8 @@ const Question = require('./models/question');
 const Choice = require('./models/choice');
 
 mongoose.connect(process.env.MONGODB_URI);
+
+const csrf = Csrf();
 
 const app = express();
 
@@ -35,18 +39,23 @@ app.get('/', async (req, res) => {
   res.render('index', {user: req.user, questions: await Question.find()});
 });
 
-app.get('/questions/:id', async (req, res) => {
+app.get('/questions/:id', csrf, async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
     question.choices = await question.getChoices();
     res.render('question', {
       user: req.user,
       question,
+      csrf_token: req.csrfToken()
     });
   } catch (error) {
     console.log(error);
     res.send(error);
   }
+});
+
+  app.post('/questions/:id/vote', bodyParser.urlencoded({ extended: false }), csrf, (req, res) => {
+  res.send('You have the csrf token.');
 });
 
 app.listen(process.env.PORT, () => {
