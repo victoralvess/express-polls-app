@@ -42,11 +42,11 @@ app.get('/', async (req, res) => {
 app.get('/questions/:id', csrf, async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
-    question.choices = await question.getChoices();
+    question.choices = await question.choices();
     res.render('question', {
       user: req.user,
       question,
-      csrf_token: req.csrfToken()
+      csrf_token: req.csrfToken(),
     });
   } catch (error) {
     console.log(error);
@@ -54,9 +54,28 @@ app.get('/questions/:id', csrf, async (req, res) => {
   }
 });
 
-  app.post('/questions/:id/vote', bodyParser.urlencoded({ extended: false }), csrf, (req, res) => {
-  res.send('You have the csrf token.');
-});
+app.post(
+  '/questions/:id/vote',
+  bodyParser.urlencoded({extended: true}),
+  csrf,
+  (req, res) => {
+    Choice.findById(req.body.choice)
+      .then(choice => {
+        choice.votes = choice.votes + 1;
+        choice.save()
+          .then(() => {
+            res.redirect('/');
+          })
+          .catch(error => {
+            console.log(error)
+            res.sendStatus(500);
+          });
+      })
+      .catch(error => {
+        res.status(400).send('Invalid Choice.');
+      });
+  },
+);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at: http://localhost:${process.env.PORT}`);
