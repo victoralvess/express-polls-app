@@ -7,10 +7,12 @@ const schema = new Schema({
   author: {type: Schema.Types.ObjectId, required: true},
 });
 
-schema.methods.getChoices = () => {
-  return Choice.find({question_id: this.id});
-};
+class Question {
+  choices() {   
+    return Choice.find({question_id: this._id});
+  }
+}
 
-let Question = mongoose.model('question', schema);
+schema.loadClass(Question);
 
-module.exports = Question;
+module.exports = mongoose.model('question', schema);
