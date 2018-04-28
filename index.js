@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 
 const passportConfig = require('./config/passport');
 const authRoutes = require('./routes/auth');
+const {isLoggedIn} = require('./controllers');
 
 const Question = require('./models/question');
 const Choice = require('./models/choice');
@@ -39,6 +40,56 @@ app.get('/', async (req, res) => {
   res.render('index', {user: req.user, questions: await Question.find()});
 });
 
+app.get('/questions/create', isLoggedIn, (req, res) => {
+  res.render('create-question');
+});
+
+app.post(
+  '/questions/create',
+  isLoggedIn,
+  bodyParser.urlencoded({extended: false}),
+  (req, res) => {
+    Question.create(
+      {
+        question: req.body.question,
+        author: req.user.id,
+      },
+      (error, question) => {
+        if (error) {
+          try {
+            question.remove();
+          } catch (e) {
+          } finally {
+            return res.redirect('/questions/create');
+          }
+        }
+        if (req.body.choices) {
+          Choice.create(
+            req.body.choices.map(choice_text => ({
+              choice_text,
+              question_id: question.id,
+            })),
+            (error, choices) => {
+              if (error) {
+                try {
+                  question.remove();
+                  choices.forEach(choice => {
+                    choice.remove();
+                  });
+                } catch (err) {
+                } finally {
+                  return res.redirect('/questions/create');
+                }
+              }
+              res.redirect('/');
+            },
+          );
+        }
+      },
+    );
+  },
+);
+
 app.get('/questions/:id', csrf, async (req, res) => {
   try {
     const question = await Question.findById(req.params.id);
@@ -62,12 +113,13 @@ app.post(
     Choice.findById(req.body.choice)
       .then(choice => {
         choice.votes = choice.votes + 1;
-        choice.save()
+        choice
+          .save()
           .then(() => {
             res.redirect('/');
           })
           .catch(error => {
-            console.log(error)
+            console.log(error);
             res.sendStatus(500);
           });
       })
