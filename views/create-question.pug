@@ -1,0 +1,13 @@
+extends base
+
+block body
+  form(method="post" action="/questions/create")
+    .form-group
+      label(for="question") Question
+      input(type="text" name="question" id="question").form-control
+      .form-row
+        each v, i in ['','']
+          .form-group.col
+            label(for="choice#{i}") Choice
+            input(type="text" name="choices" id="choice#{i}").form-control
+    input(type="submit" value="CREATE").btn.btn-primary
