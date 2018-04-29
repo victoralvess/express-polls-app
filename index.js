@@ -56,12 +56,7 @@ app.post(
       },
       (error, question) => {
         if (error) {
-          try {
-            question.remove();
-          } catch (e) {
-          } finally {
-            return res.redirect('/questions/create');
-          }
+          return res.redirect('/questions/create');
         }
         if (req.body.choices) {
           Choice.create(
