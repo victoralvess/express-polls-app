@@ -6,9 +6,12 @@ header
       button(data-toggle="collapse" data-target=".navbar-collapse").ml-auto.navbar-toggler
           span.navbar-toggler-icon/
       div.collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
+        ul.navbar-nav
           li.nav-item
             a(href="/").nav-link Home
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a(href="/questions/create").nav-link Create Question
         ul.navbar-nav
           if !user
             li.nav-item
