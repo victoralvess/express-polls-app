@@ -11,7 +11,9 @@ block body
             input(id=choice.id name="choice" type="radio" value=choice.id)
             =choice.choice_text
       br
-      input(type="submit" value="VOTE").btn.btn-success
+      div.d-flex
+        input(type="submit" value="VOTE").btn.btn-success.mr-auto
+        a(href="/questions/"+question.id+"/results").btn.btn-primary.text-white RESULTS
   else
     .alert.alert-danger
       This question doesn't exist.
