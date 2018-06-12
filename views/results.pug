@@ -1,0 +1,11 @@
+extends base
+
+block body
+    if question
+        h1= question.question
+        ul.list-group
+            each choice in question.choices
+                li.list-item= choice.choice_text + " - " + choice.votes + " votes."
+    else
+        .alert.alert-danger
+        This question doesn't exist.
