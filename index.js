@@ -36,6 +36,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/auth', authRoutes);
 
+getQuestion = async (req, res, next) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    question.choices = await question.choices();
+    req.question = question;
+    next();
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+};
+
 app.get('/', async (req, res) => {
   res.render('index', {user: req.user, questions: await Question.find()});
 });
@@ -85,20 +97,29 @@ app.post(
   },
 );
 
-app.get('/questions/:id', csrf, async (req, res) => {
-  try {
-    const question = await Question.findById(req.params.id);
-    question.choices = await question.choices();
+app.get(
+  '/questions/:id',
+  csrf,
+  getQuestion,
+  (req, res) => {
     res.render('question', {
       user: req.user,
-      question,
+      question: req.question,
       csrf_token: req.csrfToken(),
     });
-  } catch (error) {
-    console.log(error);
-    res.send(error);
   }
-});
+);
+
+app.get(
+  '/questions/:id/results',
+  getQuestion,
+  (req, res) => {
+    res.render('results', {
+      user: req.user,
+      question: req.question,
+    });
+  }
+);
 
 app.post(
   '/questions/:id/vote',
@@ -111,7 +132,7 @@ app.post(
         choice
           .save()
           .then(() => {
-            res.redirect('/');
+            res.redirect(`/questions/${req.params.id}/results`);
           })
           .catch(error => {
             console.log(error);
